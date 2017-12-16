@@ -1,7 +1,8 @@
 {
   "name": "gogetter",
   "version": "1.0.0",
-  "description": "An XHR Library",
+  "repository": "https://github.com/derekdorr/gogetter",
+  "description": "Simple, promise-based XHR classes for GET, POST, PUT, DELETE",
   "main": "lib/index.js",
   "modules": "es/index.js",
   "publishConfig": {
