@@ -27,58 +27,71 @@ The GoGetter class exposes methods for GET, POST, PUT, DELETE
 **Since**: 1.0.0  
 
 * [GoGetter](#GoGetter)
-    * [new GoGetter()](#new_GoGetter_new)
-    * [.get(uri, options)](#GoGetter.get) ⇒ <code>Promise</code>
-    * [.post(uri, body, options)](#GoGetter.post) ⇒ <code>Promise</code>
-    * [.put(uri, body, options)](#GoGetter.put) ⇒ <code>Promise</code>
-    * [.delete(uri, options)](#GoGetter.delete) ⇒ <code>Promise</code>
+    * [new GoGetter(method)](#new_GoGetter_new)
+    * [.get(uri, [options])](#GoGetter.get) ⇒ <code>Promise</code>
+    * [.post(uri, body, [options])](#GoGetter.post) ⇒ <code>Promise</code>
+    * [.put(uri, body, [options])](#GoGetter.put) ⇒ <code>Promise</code>
+    * [.delete(uri, [options])](#GoGetter.delete) ⇒ <code>Promise</code>
 
 <a name="new_GoGetter_new"></a>
 
-### new GoGetter()
+### new GoGetter(method)
 Exposes GoGetter request methods
+
+
+| Param | Type |
+| --- | --- |
+| method | <code>string</code> | 
 
 <a name="GoGetter.get"></a>
 
-### GoGetter.get(uri, options) ⇒ <code>Promise</code>
+### GoGetter.get(uri, [options]) ⇒ <code>Promise</code>
 **Kind**: static method of <code>[GoGetter](#GoGetter)</code>  
 
 | Param | Type |
 | --- | --- |
 | uri | <code>string</code> | 
-| options | <code>Object</code> | 
+| [options] | <code>Object</code> | 
+| options.timeout | <code>number</code> | 
+| options.headers | <code>Object</code> | 
 
 <a name="GoGetter.post"></a>
 
-### GoGetter.post(uri, body, options) ⇒ <code>Promise</code>
+### GoGetter.post(uri, body, [options]) ⇒ <code>Promise</code>
 **Kind**: static method of <code>[GoGetter](#GoGetter)</code>  
 
 | Param | Type |
 | --- | --- |
 | uri | <code>string</code> | 
 | body | <code>Object</code> &#124; <code>string</code> | 
-| options | <code>Object</code> | 
+| [options] | <code>Object</code> | 
+| options.timeout | <code>number</code> | 
+| options.headers | <code>Object</code> | 
 
 <a name="GoGetter.put"></a>
 
-### GoGetter.put(uri, body, options) ⇒ <code>Promise</code>
+### GoGetter.put(uri, body, [options]) ⇒ <code>Promise</code>
 **Kind**: static method of <code>[GoGetter](#GoGetter)</code>  
 
 | Param | Type |
 | --- | --- |
 | uri | <code>string</code> | 
 | body | <code>Object</code> &#124; <code>string</code> | 
-| options | <code>Object</code> | 
+| [options] | <code>Object</code> | 
+| options.timeout | <code>number</code> | 
+| options.headers | <code>Object</code> | 
 
 <a name="GoGetter.delete"></a>
 
-### GoGetter.delete(uri, options) ⇒ <code>Promise</code>
+### GoGetter.delete(uri, [options]) ⇒ <code>Promise</code>
 **Kind**: static method of <code>[GoGetter](#GoGetter)</code>  
 
 | Param | Type |
 | --- | --- |
 | uri | <code>string</code> | 
-| options | <code>Object</code> | 
+| [options] | <code>Object</code> | 
+| options.timeout | <code>number</code> | 
+| options.headers | <code>Object</code> | 
 
 <a name="XHR"></a>
 
@@ -92,6 +105,7 @@ Generate an XHR of type GET, POST, PUT, DELETE
     * [new XHR(method)](#new_XHR_new)
     * [.body(message)](#XHR+body) ⇒ <code>[XHR](#XHR)</code>
     * [.uri(url)](#XHR+uri) ⇒ <code>[XHR](#XHR)</code>
+    * [.headers(header)](#XHR+headers) ⇒ <code>[XHR](#XHR)</code>
     * [.timeout(time)](#XHR+timeout) ⇒ <code>[XHR](#XHR)</code>
     * [.send()](#XHR+send) ⇒ <code>Promise</code>
 
@@ -126,6 +140,17 @@ Update uri for request
 | Param | Type |
 | --- | --- |
 | url | <code>string</code> | 
+
+<a name="XHR+headers"></a>
+
+### xhR.headers(header) ⇒ <code>[XHR](#XHR)</code>
+Update headers for request
+
+**Kind**: instance method of <code>[XHR](#XHR)</code>  
+
+| Param | Type |
+| --- | --- |
+| header | <code>Object</code> | 
 
 <a name="XHR+timeout"></a>
 

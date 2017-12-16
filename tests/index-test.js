@@ -19,8 +19,8 @@ test('GoGetter - GET 500', t => {
 
 test('GoGetter - POST 200', t => {
     GoGetter.post('http://localhost/api/post', { c: 3, d: 4 }).then(res => {
-        t.equal(res.c, 3, 'res.c is 3');
-        t.equal(res.d, 4, 'res.d is 4');
+        t.equal(res.body.c, 3, 'res.body.c is 3');
+        t.equal(res.body.d, 4, 'res.body.d is 4');
         t.end();
     });
 });

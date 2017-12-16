@@ -22,6 +22,7 @@ const defaultToNull = defaultTo(NULL);
  * @classdesc The GoGetter class exposes methods for GET, POST, PUT, DELETE
  * @hideconstructor
  * @since 1.0.0
+ * @param {string} method
  */
 
 class GoGetter {
@@ -34,13 +35,16 @@ class GoGetter {
      * @memberOf GoGetter
      * @static
      * @param {string} uri
-     * @param {Object} options
+     * @param {Object} [options]
+     * @param {number} options.timeout
+     * @param {Object} options.headers
      * @return {Promise}
      */
     static get(uri, options) {
-        const { timeout } = toObject(options);
+        const { timeout, headers } = toObject(options);
         return new XHR(STR_METHOD_GET)
             .uri(uri)
+            .headers(defaultTo({}, headers))
             .timeout(defaultTo3000(timeout))
             .send();
     }
@@ -51,14 +55,17 @@ class GoGetter {
      * @static
      * @param {string} uri
      * @param {Object|string} body
-     * @param {Object} options
+     * @param {Object} [options]
+     * @param {number} options.timeout
+     * @param {Object} options.headers
      * @return {Promise}
      */
     static post(uri, body, options) {
-        const { timeout } = toObject(options);
+        const { timeout, headers } = toObject(options);
         return new XHR(STR_METHOD_POST)
             .uri(uri)
             .body(defaultToNull(body))
+            .headers(defaultTo({}, headers))
             .timeout(defaultTo3000(timeout))
             .send();
     }
@@ -69,14 +76,17 @@ class GoGetter {
      * @static
      * @param {string} uri
      * @param {Object|string} body
-     * @param {Object} options
+     * @param {Object} [options]
+     * @param {number} options.timeout
+     * @param {Object} options.headers
      * @return {Promise}
      */
     static put(uri, body, options) {
-        const { timeout } = toObject(options);
+        const { timeout, headers } = toObject(options);
         return new XHR(STR_METHOD_PUT)
             .uri(uri)
             .body(defaultToNull(body))
+            .headers(defaultTo({}, headers))
             .timeout(defaultTo3000(timeout))
             .send();
     }
@@ -86,13 +96,16 @@ class GoGetter {
      * @memberOf GoGetter
      * @static
      * @param {string} uri
-     * @param {Object} options
+     * @param {Object} [options]
+     * @param {number} options.timeout
+     * @param {Object} options.headers
      * @return {Promise}
      */
     static delete(uri, options) {
-        const { timeout } = toObject(options);
+        const { timeout, headers } = toObject(options);
         return new XHR(STR_METHOD_DELETE)
             .uri(uri)
+            .headers(defaultTo({}, headers))
             .timeout(defaultTo3000(timeout))
             .send();
     }

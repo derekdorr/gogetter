@@ -15,7 +15,12 @@ mock.get('http://localhost/api/json', (req, res) => res
 mock.post('http://localhost/api/post', (req, res) => res
     .status(200)
     .header('Content-Type', 'application/json')
-    .body(req._body));
+    .body(JSON.stringify({ body: JSON.parse(req._body), headers: req._headers })));
+
+mock.post('http://localhost/api/post/string', (req, res) => res
+    .status(200)
+    .header('Content-Type', 'text/plain')
+    .body(JSON.stringify({ body: req._body, headers: req._headers })));
 
 mock.get('http://localhost/api/error', (req, res) => res
     .status(500)

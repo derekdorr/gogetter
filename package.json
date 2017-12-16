@@ -1,6 +1,6 @@
 {
   "name": "gogetter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": "https://github.com/derekdorr/gogetter",
   "description": "Simple, promise-based XHR classes for GET, POST, PUT, DELETE",
   "main": "lib/index.js",
@@ -44,6 +44,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.3",
+    "babel-plugin-transform-object-entries": "^1.0.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "cross-env": "^5.1.1",

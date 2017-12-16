@@ -18,9 +18,11 @@ import {
     and,
     compose,
     defaultTo,
+    equals,
     gt,
     includes,
     isNull,
+    isObject,
     isString,
     noop,
     notEquals,
@@ -31,9 +33,14 @@ import {
 } from 'skald';
 import win from './win';
 
+const { assign, keys } = Object;
 const STR_LOAD = 'load';
 const STR_ERROR = 'error';
 const STR_ERROR_MESSAGE = 'Request Error';
+const HEADER_CONTENT_TYPE = 'Content-Type';
+const MIME_TYPE_JSON = 'application/json';
+const MIME_TYPE_FORM = 'application/x-www-form-urlencoded';
+const includesContentType = includes(HEADER_CONTENT_TYPE.toLowerCase());
 const defaultToNoop = defaultTo(noop);
 const defaultToGET = defaultTo(STR_METHOD_GET);
 const stringifyMethod = compose(defaultToGET, toString);
@@ -47,6 +54,8 @@ const sanitizeMethod = method => {
 };
 const lessThan400 = gt(400);
 const notEqualsZero = notEquals(INT_ZERO);
+const equalsGET = equals(STR_METHOD_GET);
+const equalsDELETE = equals(STR_METHOD_DELETE);
 const { XMLHttpRequest: winXHR } = win();
 const XMLHttpRequest = defaultToNoop(winXHR);
 const parseJson = data => {
@@ -56,6 +65,11 @@ const parseJson = data => {
         return data;
     }
 };
+const stringifyMessage = message => ternary(
+    () => JSON.stringify(message),
+    message,
+    or(isString(message), isNull(message)),
+);
 
 class XHR {
     constructor(method) {
@@ -63,6 +77,7 @@ class XHR {
         this._method = sanitizeMethod(method);
         this._uri = null;
         this._body = null;
+        this._headers = {};
         this._timeout = 3000;
     }
 
@@ -75,11 +90,7 @@ class XHR {
      * @return {XHR}
      */
     body(message) {
-        this._body = ternary(
-            () => JSON.stringify(message),
-            message,
-            or(isString(message), isNull(message)),
-        );
+        this._body = message;
         return this;
     }
 
@@ -93,6 +104,19 @@ class XHR {
      */
     uri(url) {
         this._uri = toString(url);
+        return this;
+    }
+
+    /**
+     * Update headers for request
+     *
+     * @func
+     * @memberOf XHR
+     * @param {Object} header
+     * @return {XHR}
+     */
+    headers(header) {
+        assign(this._headers, header);
         return this;
     }
 
@@ -118,7 +142,29 @@ class XHR {
      */
     send() {
         return new Promise((resolve, reject) => {
-            const request = this._request;
+            const {
+                _request: request,
+                _headers: headers,
+                _method: method,
+                _body: body,
+                _uri: uri,
+                _timeout: timeout,
+            } = this;
+
+            const reqHeaders = ternary(
+                () => assign(headers, ternary(
+                    () => ({ [HEADER_CONTENT_TYPE]: MIME_TYPE_FORM }),
+                    () => ({ [HEADER_CONTENT_TYPE]: MIME_TYPE_JSON }),
+                    isObject(body),
+                )),
+                headers,
+                or(
+                    equalsGET(method),
+                    equalsDELETE(method),
+                    includesContentType(keys(headers).map(val => val.toLowerCase())),
+                ),
+            );
+            const setHeaders = Object.entries(reqHeaders);
             const onError = () => {
                 const { responseText, status, statusText } = request;
                 const rejection = new Error(STR_ERROR_MESSAGE);
@@ -137,9 +183,13 @@ class XHR {
             };
             request.addEventListener(STR_LOAD, onLoad);
             request.addEventListener(STR_ERROR, onError);
-            request.timeout = this._timeout;
-            request.open(this._method, this._uri);
-            request.send(this._body);
+            request.timeout = timeout;
+            request.open(method, uri);
+            setHeaders.forEach(val => {
+                const [name, value] = val;
+                request.setRequestHeader(name, value);
+            });
+            request.send(stringifyMessage(body));
         });
     }
 }
