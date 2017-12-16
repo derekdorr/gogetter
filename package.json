@@ -1,0 +1,62 @@
+{
+  "name": "gogetter",
+  "version": "1.0.0",
+  "description": "An XHR Library",
+  "main": "lib/index.js",
+  "modules": "es/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib",
+    "es",
+    "src",
+    "package.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "docs": "gulp docs",
+    "test": "nyc tape tests/*-test.js",
+    "lint": "eslint --fix src/ tests/",
+    "build-lib": "babel src --out-dir lib",
+    "build-es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build": "npm run build-lib && npm run build-es",
+    "precommit": "npm run lint && npm run test"
+  },
+  "nyc": {
+    "exclude": [
+      "tests/"
+    ],
+    "require": [
+      "babel-register",
+      "./tests/mock.js"
+    ]
+  },
+  "author": "Derek Dorr",
+  "license": "MIT",
+  "dependencies": {
+    "permanent": "^1.0.0",
+    "skald": "^1.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "cross-env": "^5.1.1",
+    "eslint": "^4.13.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-jsdoc-to-markdown": "^1.2.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-util": "^3.0.8",
+    "husky": "^0.14.3",
+    "nyc": "^11.3.0",
+    "tape": "^4.8.0",
+    "xhr-mock": "^1.9.1"
+  }
+}
