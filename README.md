@@ -1,5 +1,7 @@
 ## Classes
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/derekdorr/gogetter.svg)](https://greenkeeper.io/)
+
 <dl>
 <dt><a href="#GoGetter">GoGetter</a></dt>
 <dd><p>The GoGetter class exposes methods for GET, POST, PUT, DELETE</p>
